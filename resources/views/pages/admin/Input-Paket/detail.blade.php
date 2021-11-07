@@ -71,7 +71,7 @@
                                                 </a>
                                                 @endif
                                                 {{-- {{ route('routeName', ['id'=>1]) }} --}}
-                                                <a href="{{route('download-paket', $item->id)}}" class="btn btn-info btn-sm">
+                                                <a href="{{route('download-paket', $item->id) . "?tahun=" . Request::get("tahun") }}" class="btn btn-info btn-sm">
                                                     <i class="fas fa-print"></i>
                                                 </a>
                                             </td>

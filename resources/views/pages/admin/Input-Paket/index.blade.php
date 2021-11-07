@@ -56,7 +56,7 @@
                             </thead>
                             <tbody>
                                 @if (Request::get('date'))
-                                    @foreach ($skpd as $item)
+                                    @foreach ($skpd as $key => $item)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$item->name}}</td>
@@ -65,8 +65,8 @@
                                         <td>Rp. {{number_format($item->inputPakets->sum('nilaiKontrak'),0,',', '.')}}</td>
                                         <td>Rp. {{number_format($item->inputPakets->sum('efisiensi'),0,',', '.')}}</td>
                                         <td>
-                                            <a href="{{route('tampilkan-paket',['id'=>$item->id])}}" class="btn btn-primary btn-sm mr-1"> <i class="fas fa-eye"></i> </a>
-                                            <a target="_blank" href="{{route('skpd.print',['id'=>$item->id,'date'=>Request::get('date')])}}" class="btn btn-info btn-sm"> <i class="fas fa-print"></i> </a>
+                                            <a href="{{route('tampilkan-paket',['id'=>$item->id]) . "?tahun=" . Request::get('date') }}" class="btn btn-primary btn-sm mr-1"> <i class="fas fa-eye"></i> </a>
+                                            <a target="_blank" href="{{route('skpd.print',['date'=>Request::get('date')])}}" class="btn btn-info btn-sm"> <i class="fas fa-print"></i> </a>
                                         </td>
                                     </tr>
                                     @endforeach
