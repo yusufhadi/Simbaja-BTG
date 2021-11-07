@@ -45,26 +45,36 @@ class InputPaketController extends Controller
         ]);
     }
 
-    public function downld($id)
+    public function downld(Request $request, $id)
     {
         // Load users
-        $data = InputPaket::where('id', $id)->get();
+        $data = InputPaket::query()
+            ->with("skpd")
+            ->where('skpd_id', $id)
+            ->where('tahun', $request->tahun)
+            ->get();
 
+        $siapPrint = [];
+
+        foreach ($data as $key => $value) {
+            array_push($siapPrint, [
+                'No' => $key + 1,
+                'SKPD' => $value->skpd->name,
+                'Tahun' => $value->tahun,
+                'Mekanisme Pelaksanaan' => $value->pilih,
+                'Nama Paket' => $value->namaPaket,
+                'Name Penyedia' => $value->namaPenyedia,
+                'Nilai Kontrak' => $value->nilaiKontrak,
+                'Pagu Anggaran' => $value->paguAnggaran,
+                'Nilai HPS' => $value->nilaiHps,
+                'Nilai Efisiensi' => $value->efisiensi,
+            ]);
+        }
+
+        $exel = new FastExcel;
+        return   $exel->data($siapPrint)->download("laporan" . '_'  . '.xlsx');
         // redirect()->route('tambah-paket');
         // Export all users
-        return (new FastExcel($data))->download('file.xlsx', function ($data) {
-            return [
-                'SKPD' => $data->skpd->name,
-                'Tahun' => $data->tahun,
-                'Pilih' => $data->pilih,
-                'Nama Paket' => $data->namaPaket,
-                'Nama Penyedia' => $data->namaPenyedia,
-                'Nilai Kontrak' => $data->nilaiKontrak,
-                'Pagu Anggaran' => $data->paguAnggaran,
-                'Nilai HPS' => $data->nilaiHps,
-                'Efisiensi' => $data->efisiensi,
-            ];
-        });
     }
     /**
      * Store a newly created resource in storage.
@@ -87,13 +97,11 @@ class InputPaketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id = "")
+    public function show(Request $request, $id)
     {
-        $skpd =  skpd::with(['inputPakets' => function ($query) use ($request) {
-            if ($request->get('pilih')) {
-                return $query->where('pilih', $request->get('pilih'));
-            }
-        }])->findOrFail($id);
+        $skpd = skpd::with(["inputPakets" => function ($query) use ($request) {
+            return $query->where('tahun', $request->tahun);
+        }])->find($id);
         $items = $skpd->inputPakets;
         $title = $skpd->name;
         // $tahun = $skpd->inputPakets->tahun;

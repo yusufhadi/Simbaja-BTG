@@ -31,25 +31,24 @@ class SkpdController extends Controller
         return view('pages.admin.Input-Paket.tambah-skpd');
     }
 
-    public function print($id, $date)
+    public function print($date)
     {
-        $data = skpd::where('id', $id)->with(['inputPakets' => function ($query) use ($date) {
+        $data = skpd::with(['inputPakets' => function ($query) use ($date) {
             return $query->where('tahun', $date);
-        }])->first();
-        $list = collect([
-            [
-                'No' => $data->iteration,
-                'SKPD' => $data->name,
-                'Tahun' => $date,
-                'Jumblah Paket' => $data->inputPakets->count(),
-                'Jumblah Nilai Kontrak' => $data->inputPakets->sum('nilaiKontrak'),
-                'Jumblah Pagu Anggaran' => $data->inputPakets->sum('paguAnggaran'),
-                'Efisiensi' => $data->inputPakets->sum('efisiensi')
-            ]
-        ]);
+        }])->get();
+        $dataSkp = [];
 
+        foreach ($data as $key => $value) {
+            $dataSkp[$key]['No'] = $key + 1; 
+            $dataSkp[$key]['SKPD'] = $value->name ?? "";
+            $dataSkp[$key]['Tahun'] = $date;
+            $dataSkp[$key]['Jumblah Paket'] = $value->inputPakets->count();
+            $dataSkp[$key]['Jumblah Nilai Kontrak'] = $value->inputPakets->sum('nilaiKontrak');
+            $dataSkp[$key]['Jumblah Pagu Anggaran'] = $value->inputPakets->sum('paguAnggaran');
+            $dataSkp[$key]['Efisiensi'] = $value->inputPakets->sum('efisiensi');
+        }
         $exel = new FastExcel;
-        return   $exel->data($list)->download($data->name . '_' . $date . '.xlsx');
+        return   $exel->data($dataSkp)->download("laporan". '_' . $date . '.xlsx');
     }
     /**
      * Store a newly created resource in storage.

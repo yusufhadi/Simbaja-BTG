@@ -11,9 +11,6 @@
 |
 */
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\InputPaketController;
-use App\Http\Controllers\LoginAdminController;
 use Illuminate\Support\Facades\Route;
 
 // use Symfony\Component\Routing\Route;
@@ -60,7 +57,7 @@ Route::middleware('auth')->group(function () {
     //     ->name('tambah-skpd');
 
 
-    Route::get('skpd/print/{id}/{date}', 'SkpdController@print')->name('skpd.print');
+    Route::get('skpd/print/{date}', 'SkpdController@print')->name('skpd.print');
 
     Route::middleware('administrator')->group(function () {
 
