@@ -16,6 +16,7 @@ class CreateSkpdsTable extends Migration
         Schema::create('skpds', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 128);
+            // $table->softDeletes();
             $table->timestamps();
         });
     }

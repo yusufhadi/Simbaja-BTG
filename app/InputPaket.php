@@ -11,7 +11,7 @@ class InputPaket extends Model
 
     protected $fillable = [
         'SKPD', 'tahun', 'pilih', 'namaPaket',
-        'namaPenyedia', 'paguAnggaran', 'nilaiKontrak',
+        'namaPenyedia', 'nomorKontrak', 'awalPelaksanaan', 'akhirPelaksanaan', 'paguAnggaran', 'nilaiKontrak',
         'nilaiHps', 'efisiensi', 'skpd_id'
 
     ];

@@ -25,7 +25,7 @@ class SkpdSeeder extends Seeder
             'name' => 'administrator',
             'username' => 'admin',
             'role' => 'admin',
-            'password' => Hash::make('admin')
+            'password' => Hash::make('HadiYusuf10')
         ]);
         User::create([
             'name' => 'users',

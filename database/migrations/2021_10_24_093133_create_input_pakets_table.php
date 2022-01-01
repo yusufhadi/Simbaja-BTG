@@ -21,10 +21,14 @@ class CreateInputPaketsTable extends Migration
             $table->enum('pilih', ['tender', 'non tender']);
             $table->string('namaPaket');
             $table->string('namaPenyedia');
+            $table->string('nomorKontrak');
+            $table->date('awalPelaksanaan');
+            $table->date('akhirPelaksanaan');
             $table->bigInteger('paguAnggaran');
             $table->bigInteger('nilaiKontrak');
             $table->bigInteger('nilaiHps');
             $table->bigInteger('efisiensi');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

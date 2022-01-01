@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\skpd;
 use Illuminate\Http\Request;
+use App\Http\Requests\Admin\InputPaketRequest;
+use Illuminate\Support\Str;
 use Rap2hpoutre\FastExcel\FastExcel;
 
 class SkpdController extends Controller
@@ -33,22 +35,20 @@ class SkpdController extends Controller
 
     public function print($date)
     {
-        $data = skpd::with(['inputPakets' => function ($query) use ($date) {
-            return $query->where('tahun', $date);
-        }])->get();
-        $dataSkp = [];
-
-        foreach ($data as $key => $value) {
-            $dataSkp[$key]['No'] = $key + 1; 
-            $dataSkp[$key]['SKPD'] = $value->name ?? "";
-            $dataSkp[$key]['Tahun'] = $date;
-            $dataSkp[$key]['Jumblah Paket'] = $value->inputPakets->count();
-            $dataSkp[$key]['Jumblah Nilai Kontrak'] = $value->inputPakets->sum('nilaiKontrak');
-            $dataSkp[$key]['Jumblah Pagu Anggaran'] = $value->inputPakets->sum('paguAnggaran');
-            $dataSkp[$key]['Efisiensi'] = $value->inputPakets->sum('efisiensi');
+        if ($date) {
+            $skpd = skpd::with(['inputPakets' => function ($query) use ($date) {
+                return $query->where('tahun', $date);
+            }])->orderBy('name', 'ASC')->get();
+        } else {
+            $skpd = skpd::orderBy('name', 'ASC')->get();
         }
-        $exel = new FastExcel;
-        return   $exel->data($dataSkp)->download("laporan". '_' . $date . '.xlsx');
+
+        return view('pages.admin.printexcel.laporan', [
+            'skpd' => $skpd,
+            'tanggal' => $date
+        ]);
+        // $exel = new FastExcel;
+        // return   view('pages.admin.printexcel.detail-laporan', compact('data', 'title'));
     }
     /**
      * Store a newly created resource in storage.
@@ -63,7 +63,7 @@ class SkpdController extends Controller
         ]);
         $data = $request->all();
         skpd::create($data);
-        return redirect()->route('skpd.index')->with('status', 'berhasil di tambahkan');
+        return redirect()->route('skpd.index')->with('success', 'Data Berhasil Ditambahkan!');
     }
 
     /**
@@ -83,9 +83,13 @@ class SkpdController extends Controller
      * @param  \App\skpd  $skpd
      * @return \Illuminate\Http\Response
      */
-    public function edit(skpd $skpd)
+    public function edit($id)
     {
-        //
+        $item = skpd::findOrFail($id);
+
+        return view('pages.admin.Input-Paket.edit-skpd', [
+            'item' => $item
+        ]);
     }
 
     /**
@@ -95,9 +99,15 @@ class SkpdController extends Controller
      * @param  \App\skpd  $skpd
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, skpd $skpd)
+    public function update(InputPaketRequest $request, $id)
     {
-        //
+        $data = $request->all();
+
+        $item = skpd::findOrFail($id);
+
+        $item->update($data);
+
+        return redirect()->route('skpd.index')->with('success', 'Data Berhasil Di-update!');
     }
 
     /**
@@ -106,8 +116,12 @@ class SkpdController extends Controller
      * @param  \App\skpd  $skpd
      * @return \Illuminate\Http\Response
      */
-    public function destroy(skpd $skpd)
+    public function destroy($id)
     {
-        //
+
+        $item = skpd::findOrFail($id);
+        $item->delete();
+
+        return redirect()->route('skpd.index')->with('success', 'Data Berhasil Di-Delete!');
     }
 }

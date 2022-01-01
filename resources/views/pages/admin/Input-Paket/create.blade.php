@@ -90,7 +90,7 @@
                                         <option>Kecematan Pa'jukukang</option>
                                     </select> --}}
                                     <select name="skpd_id" id="skpd_id" class="form-select shadow-none border-0 ps-0 form-control-line" required>
-                                        <option value="">.....</option>
+                                        <option value="">Pilih SKPD</option>
                                         @foreach ($skpd as $item)
                                             <option value="{{$item->id}}">{{$item->name}}</option>
                                         @endforeach
@@ -100,7 +100,7 @@
                             <div class="form-group">
                                 <label class="col-sm-12" for="tahun">Tahun</label>
                                 <div class="col-sm-12 border-bottom">
-                                    <select class="form-select shadow-none border-0 ps-0 form-control-line" name="tahun" value="{{old('tahun')}}">
+                                    <select class="form-select shadow-none border-0 ps-0 form-control-line" name="tahun" value="{{old('tahun')}}" required>
                                         <option selected>Pilih Tahun</option>
                                         <option>2021</option>
                                         <option>2022</option>
@@ -111,7 +111,7 @@
                             <div class="form-group">
                                 <label class="col-sm-12" for="pilih">Tender/Non Tender</label>
                                 <div class="col-sm-12 border-bottom">
-                                    <select class="form-select shadow-none border-0 ps-0 form-control-line" name="pilih" value="{{old('pilih')}}">
+                                    <select class="form-select shadow-none border-0 ps-0 form-control-line" name="pilih" value="{{old('pilih')}}" required>
                                         <option selected>Pilih</option>
                                         <option>Tender</option>
                                         <option>Non Tender</option>
@@ -122,42 +122,63 @@
                                 <label class="col-md-12 mb-0" for="namaPaket">Nama Paket</label>
                                 <div class="col-md-12">
                                     <input type="text" placeholder="Masukkan Nama Paket"
-                                        class="form-control ps-0 form-control-line" name="namaPaket" value="{{old('namaPaket')}}">
+                                        class="form-control ps-0 form-control-line" name="namaPaket" value="{{old('namaPaket')}}" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-12 mb-0" for="namaPenyedia">Nama Penyedia</label>
                                 <div class="col-md-12">
                                     <input type="text" placeholder="Masukkan Nama Penyedia"
-                                        class="form-control ps-0 form-control-line" name="namaPenyedia" value="{{old('namaPenyedia')}}">
+                                        class="form-control ps-0 form-control-line" name="namaPenyedia" value="{{old('namaPenyedia')}}" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-12 mb-0" for="nomorKontrak">Nomor Kontrak</label>
+                                <div class="col-md-12">
+                                    <input type="text" placeholder="Masukkan Nomor Kontrak"
+                                        class="form-control ps-0 form-control-line" name="nomorKontrak" value="{{old('nomorKontrak')}}" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-12 mb-0" for="awalPelaksanaan">Awal Pelaksanaan</label>
+                                <div class="col-md-12">
+                                    <input type="date" placeholder="Masukkan Awal Pelaksanaan"
+                                        class="form-control ps-0 form-control-line" name="awalPelaksanaan" value="{{old('awalPelaksanaan')}}" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-12 mb-0" for="akhirPelaksanaan">Akhir Pelaksanaan</label>
+                                <div class="col-md-12">
+                                    <input type="date" placeholder="Masukkan Akhir Pelaksanaan"
+                                        class="form-control ps-0 form-control-line" name="akhirPelaksanaan" value="{{old('akhirPelaksanaan')}}" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-12 mb-0" for="paguAnggaran">Pagu Anggaran</label>
                                 <div class="col-md-12">
                                     <input type="number" placeholder="Masukkan Pagu Anggaran"
-                                        class="form-control ps-0 form-control-line" name="paguAnggaran" value="{{old('paguAnggaran')}}">
+                                        class="form-control ps-0 form-control-line" name="paguAnggaran" value="{{old('paguAnggaran')}}" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-12 mb-0" for="nilaiKontrak">Nilai Kontrak</label>
                                 <div class="col-md-12">
                                     <input type="number" placeholder="Masukkan Nilai Kontrak"
-                                        class="form-control ps-0 form-control-line" name="nilaiKontrak" value="{{old('nilaiKontrak')}}">
+                                        class="form-control ps-0 form-control-line" name="nilaiKontrak" value="{{old('nilaiKontrak')}}" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-12 mb-0" for="nilaiHps">Nilai HPS</label>
                                 <div class="col-md-12">
                                     <input type="number" placeholder="Masukkan Nilai HPS"
-                                        class="form-control ps-0 form-control-line" name="nilaiHps" value="{{old('nilaiHps')}}">
+                                        class="form-control ps-0 form-control-line" name="nilaiHps" value="{{old('nilaiHps')}}" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-12 mb-0" for="efisiensi">Efisiensi</label>
                                 <div class="col-md-12">
                                     <input type="number" placeholder="Masukkan Efisiensi"
-                                        class="form-control ps-0 form-control-line" name="efisiensi" value="{{old('efisiensi')}}">
+                                        class="form-control ps-0 form-control-line" name="efisiensi" value="{{old('efisiensi')}}" required>
                                 </div>
                             </div>
                             <div class="form-group">

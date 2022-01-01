@@ -25,14 +25,17 @@ class InputPaketRequest extends FormRequest
     {
         return [
             'SKPD' => 'max:225',
-            'tahun' => 'required|max:225',
-            'pilih' => 'required|max:225',
-            'namaPaket' => 'required|max:225',
-            'namaPenyedia' => 'required|max:225',
-            'paguAnggaran' => 'required|integer',
-            'nilaiKontrak' => 'required|integer',
-            'nilaiHps' => 'required|integer',
-            'efisiensi' => 'required|integer',
+            'tahun' => 'max:225',
+            'pilih' => 'max:225',
+            'namaPaket' => 'max:225',
+            'namaPenyedia' => 'max:225',
+            'nomorKontrak' => 'max:225',
+            'awalPelaksanaan' => 'date',
+            'akhirPelaksanaan' => 'date',
+            'paguAnggaran' => 'integer',
+            'nilaiKontrak' => 'integer',
+            'nilaiHps' => 'integer',
+            'efisiensi' => 'integer',
         ];
     }
 }

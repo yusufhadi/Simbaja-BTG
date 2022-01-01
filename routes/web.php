@@ -42,7 +42,6 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-
 Route::middleware('auth')->group(function () {
     Route::post('auth/logout', 'LoginAdminController@logout')->name('auth.logout');
 
@@ -61,7 +60,7 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('administrator')->group(function () {
 
-        Route::resource('skpd', 'skpdController');
+        Route::resource('skpd', 'SkpdController');
 
         Route::get('/input-paket/show/{id}/edit', 'InputPaketController@edit')
             ->name('edit-paket');
@@ -69,6 +68,7 @@ Route::middleware('auth')->group(function () {
         Route::PUT('/input-paket/show/{id}/edit', 'InputPaketController@update')
             ->name('edit-paket');
     });
+    Route::get('skpd-destroy/{id}', 'SkpdController@destroy');
 
     Route::get('/input-paket', 'InputPaketController@index')
         ->name('input-paket');

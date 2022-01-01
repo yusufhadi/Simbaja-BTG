@@ -47,6 +47,7 @@ class InputPaketController extends Controller
 
     public function downld(Request $request, $id)
     {
+
         // Load users
         $data = InputPaket::query()
             ->with("skpd")
@@ -56,7 +57,9 @@ class InputPaketController extends Controller
 
         $siapPrint = [];
 
+        $name = null;
         foreach ($data as $key => $value) {
+            $name = $value->skpd->name;
             array_push($siapPrint, [
                 'No' => $key + 1,
                 'SKPD' => $value->skpd->name,
@@ -70,9 +73,8 @@ class InputPaketController extends Controller
                 'Nilai Efisiensi' => $value->efisiensi,
             ]);
         }
-
-        $exel = new FastExcel;
-        return   $exel->data($siapPrint)->download("laporan" . '_'  . '.xlsx');
+        // $exel = new FastExcel;
+        return   view('pages.admin.printexcel.detail-laporan', compact('data', 'title', 'name'));
         // redirect()->route('tambah-paket');
         // Export all users
     }
@@ -88,7 +90,7 @@ class InputPaketController extends Controller
         // $data['slug'] = Str::slug($request->SKPD);
 
         InputPaket::create($data);
-        return redirect()->route('tambah-paket.create');
+        return redirect()->route('tambah-paket.create')->with('success', 'Data Berhasil Ditambahkan!');
     }
 
     /**
@@ -104,8 +106,9 @@ class InputPaketController extends Controller
         }])->find($id);
         $items = $skpd->inputPakets;
         $title = $skpd->name;
+        // $download = $skpd->inputPakets->id;
         // $tahun = $skpd->inputPakets->tahun;
-        return view('pages.admin.Input-Paket.detail', compact('items', 'title'));
+        return view('pages.admin.Input-Paket.detail', compact('items', 'title', 'id'));
     }
 
     /**
@@ -139,7 +142,7 @@ class InputPaketController extends Controller
 
         $item->update($data);
 
-        return redirect()->route('input-paket');
+        return redirect()->route('input-paket')->with('success', 'Data Berhasil Di-update!');
     }
 
     /**

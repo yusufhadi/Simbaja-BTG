@@ -36,7 +36,8 @@
                 @endif
                 <div class="card shadow">
                     <div class="card-body">
-                        <form class="form-horizontal form-material mx-2" action="{{route('skpd.edit')}}" method="POST">
+                        <form class="form-horizontal form-material mx-2" action="{{route('skpd.update', $item->id)}}" method="post">
+                            @method('PUT')
                             @csrf                 
                             <div class="form-group">
                                 <label class="col-md-12 mb-0" for="namaPenyedia">Edit SKPD</label>
